@@ -20,7 +20,8 @@ function App() {
 
     let todoItem = {
       id : getId(),
-      message : message
+      message : message,
+      date: new Date().getTime()
     }
     copyTodoList.push(todoItem)
     setTodoList(copyTodoList)
@@ -54,6 +55,7 @@ function App() {
       {
         todoList.map((item, index) => (
           <div key={index}>
+            <span>{new Date(item.date).toString()}</span>
             <span>{item.message}</span>
             <button onClick={() => {
               deleteTodoById(item.id)

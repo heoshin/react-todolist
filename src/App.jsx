@@ -1,33 +1,42 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [currentMessage, setCurrentMessage] = useState("")
+  const [todoList, setTodoList] = useState([])
+  const addTodoList = item => {
+    setCurrentMessage('')
+    let copy = [...todoList]
+    copy.push(item)
+    setTodoList(copy)
+  }
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <h1>TodoList</h1>
+      <section id="input-section">
+        <input
+          value={currentMessage}
+          onChange={
+            e => {
+              setCurrentMessage(e.target.value)
+            }
+          }>
+        </input>
+        <button onClick={
+          () => {
+            addTodoList(currentMessage)
+          }
+        }>추가</button>
+      </section>
+
+      {
+        todoList.map((item, index) => (
+          <div key={index}>
+            {item}
+          </div>
+        ))
+      }
     </>
   )
 }

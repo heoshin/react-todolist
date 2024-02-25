@@ -4,11 +4,32 @@ import './App.css'
 function App() {
   const [currentMessage, setCurrentMessage] = useState("")
   const [todoList, setTodoList] = useState([])
-  const addTodoList = item => {
+  const addTodo = message => {
     setCurrentMessage('')
-    let copy = [...todoList]
-    copy.push(item)
-    setTodoList(copy)
+    let copyTodoList = [...todoList]
+    const getId = () => {
+      if (copyTodoList.length == 0)
+      {
+        return 0
+      }
+      else 
+      {
+        return copyTodoList[copyTodoList.length - 1].id + 1
+      }
+    }
+
+    let todoItem = {
+      id : getId(),
+      message : message
+    }
+    copyTodoList.push(todoItem)
+    setTodoList(copyTodoList)
+  }
+  const deleteTodoById = id => {
+    let deletedTodoList = todoList.filter((value, index, arr) => {
+      return value.id != id
+    })
+    setTodoList(deletedTodoList)
   }
 
   return (
@@ -25,7 +46,7 @@ function App() {
         </input>
         <button onClick={
           () => {
-            addTodoList(currentMessage)
+            addTodo(currentMessage)
           }
         }>추가</button>
       </section>
@@ -33,7 +54,10 @@ function App() {
       {
         todoList.map((item, index) => (
           <div key={index}>
-            {item}
+            <span>{item.message}</span>
+            <button onClick={() => {
+              deleteTodoById(item.id)
+            }}>삭제</button>
           </div>
         ))
       }
